@@ -7,5 +7,29 @@ from .views import *
 
 
 urlpatterns = [
-  path('', pag_home, name='pag_home'),
+  path('', list_alumnos, name='list_alumnos'),
+
+  path('alumno/', include([
+    path('<int:id>/', list_alumno_by_id, name='list_alumno_by_id'),
+    path('agregar/', agregar_alumno, name='agregar_alumno'),
+    #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
+    path('eliminar/<int:id>/', eliminar_alumno, name='eliminar_alumno'),
+  ])),
+
+  path('arancel/', include([
+    path('<int:id>/', list_alumno_by_id, name='list_alumno_by_id'),
+    path('agregar/', agregar_alumno, name='agregar_alumno'),
+    #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
+    path('eliminar/<int:id>/', eliminar_alumno, name='eliminar_alumno'),
+  ])),
+
+  path('pagos/', include([
+    path('<int:id>/', list_alumno_by_id, name='list_alumno_by_id'),
+    path('agregar/', agregar_alumno, name='agregar_alumno'),
+    #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
+    path('eliminar/<int:id>/', eliminar_alumno, name='eliminar_alumno'),
+  ])),
+  
+
+
 ]

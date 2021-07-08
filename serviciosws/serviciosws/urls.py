@@ -23,8 +23,8 @@ from serviciosws.ws.expose_pagos import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/estudiante/', alumno, name='alumno'),  
-    path('api/v1/estudiante/<int:id>/', alumno_by_id, name='alumno_by_id'),
+    path('api/v1/alumno/', alumno, name='alumno'),  
+    path('api/v1/alumno/<int:id>/', alumno_by_id, name='alumno_by_id'),
 
     path('api/v1/arancel/', arancel, name='arancel'),
     path('api/v1/arancel/<int:id>/', arancel_by_id, name='arancel_by_id'), 

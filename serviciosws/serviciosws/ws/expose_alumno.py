@@ -28,8 +28,7 @@ scheme_add_alumno = {
 
 @api_view(['GET', 'POST'])
 def alumno(request):
-
-    print('message: {0}'.format(message))    
+    print('method alumno')
     if request.method == 'GET':
         return find_all(request)
     if request.method == 'POST':
@@ -42,19 +41,19 @@ def add_alumno(request):
     try:
         validate(instance=alumno, schema=scheme_add_alumno)
         new_alumno = Alumno(
-                            rut = alumno.get('rut'),
-                            nombres = alumno.get('nombres'),
-                            apellido_paterno = alumno.get('apellido_paterno'),
-                            apellido_materno = alumno.get('apellido_materno'),
-                            email = alumno.get('email'),
-                            direccion = alumno.get('direccion'),
-                            comuna = alumno.get('comuna'),
-                            matriculado = alumno.get('matriculado'),
-                            morocidad = alumno.get('morocidad'),
-                            is_regular = alumno.get('is_regular'),
-                            telefono = alumno.get('telefono'),
-                        )
-        new_alumno.save() 
+            rut = alumno.get('rut'),
+            nombres = alumno.get('nombres'),
+            apellido_paterno = alumno.get('apellido_paterno'),
+            apellido_materno = alumno.get('apellido_materno'),
+            email = alumno.get('email'),
+            direccion = alumno.get('direccion'),
+            comuna = alumno.get('comuna'),
+            matriculado = alumno.get('matriculado'),
+            morocidad = alumno.get('morocidad'),
+            is_regular = alumno.get('is_regular'),
+            telefono = alumno.get('telefono'),
+        )
+        new_alumno.save()
         return JsonResponse(new_alumno.json(),  content_type="application/json", 
                         json_dumps_params={'ensure_ascii': False})
     except ValidationError as err:
@@ -64,7 +63,7 @@ def add_alumno(request):
         return response        
     except Exception as err:
         print(err)
-        response = HttpResponse('Error al crear el alumnoe en el sistema')
+        response = HttpResponse('Error al crear el alumno en el sistema')
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR    
         return response
 

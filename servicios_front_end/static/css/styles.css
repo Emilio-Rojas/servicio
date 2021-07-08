@@ -39,24 +39,6 @@
   .tbtable td {
     vertical-align: middle;
   }
-  .table-button {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    vertical-align: unset;
-    width: 98px;
-    padding: 10px 18px 11px !important;
-    color: black;
-    opacity: 0.5;
-    background-color: white;
-  }
-  .reserva-button {
-    border: 2px solid black;
-    float: left;
-    padding: 9px 10px 11px !important;
-    background-color: white;
-    opacity: 0.5;
-    color: black;
-  }
   #form_wrap {
     margin-top: 5%;
     margin-left: 30%;
