@@ -1,6 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from serviciosws.persistence.models import finanzas
+from serviciosws.persistence.models import Finanzas
 import json
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
@@ -52,19 +52,19 @@ def add_finanzas(request):
         return response        
     except Exception as err:
         print(err)
-        response = HttpResponse('Error al crear el finanzase en el sistema')
+        response = HttpResponse('Error al crear el Finanzas en el sistema')
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR    
         return response
 
 def find_all(request):
     print('method find_all')
     try:
-        finanzass = finanzas.objects.all().order_by('id').values()
-        return JsonResponse(list(finanzass), safe=False,
+        finanzas = Finanzas.objects.all().order_by('id').values()
+        return JsonResponse(list(finanzas), safe=False,
             content_type="application/json", json_dumps_params={'ensure_ascii': False})
     except Exception as err:
         print(err)
-        response = HttpResponse('Error al buscar los finanzases en la base de datos')
+        response = HttpResponse('Error al buscar los Finanzas en la base de datos')
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return response
 
@@ -78,12 +78,12 @@ def finanzas_by_id(request, id):
 def find_by_id(request, id):
     print('find_by_id')
     try:
-        finanzas = finanzas.objects.get(id = id)
+        finanzas = Finanzas.objects.get(id = id)
         return JsonResponse(finanzas.json(), content_type="application/json", 
                 json_dumps_params={'ensure_ascii': False})
-    except finanzas.DoesNotExist as err: 
+    except Finanzas.DoesNotExist as err: 
         print(err)
-        response = HttpResponse('finanzas no encontrado. Error al buscar por id -> {0}'.format(id))
+        response = HttpResponse('Finanzas no encontrado. Error al buscar por id -> {0}'.format(id))
         response.status_code = status.HTTP_404_NOT_FOUND
         return response
     except Exception as err:
@@ -95,14 +95,14 @@ def find_by_id(request, id):
 def delete_by_id(request, id):
     print('find_by_id')
     try:
-        finanzas = finanzas.objects.get(id = id)
+        finanzas = Finanzas.objects.get(id = id)
         finanzas.delete()
-        response = HttpResponse('finanzas eliminado -> {0}'.format(id))
+        response = HttpResponse('Finanzas eliminado -> {0}'.format(id))
         response.status_code = status.HTTP_200_OK
         return response
-    except finanzas.DoesNotExist as err: 
+    except Finanzas.DoesNotExist as err: 
         print(err)
-        response = HttpResponse('finanzas no encontrado. Error al borrando por id -> {0}'.format(id))
+        response = HttpResponse('Finanzas no encontrado. Error al borrando por id -> {0}'.format(id))
         response.status_code = status.HTTP_404_NOT_FOUND
         return response
     except Exception as err:
