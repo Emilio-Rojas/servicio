@@ -34,4 +34,5 @@ class FinanzasForms(forms.Form):
     id_aranceles = forms.CharField()
     tipo_cuota = forms.CharField()
     num_cuota = forms.CharField()
+    pagada = forms.BooleanField(required=False, initial=False)
     fecha_vencimiento = forms.DateField()

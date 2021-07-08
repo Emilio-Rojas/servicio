@@ -25,10 +25,11 @@ urlpatterns = [
   ])),
 
   path('finanzas/', include([
-    path('<int:id>/', list_alumno_by_id, name='list_alumno_by_id'),
-    path('agregar/', agregar_alumno, name='agregar_alumno'),
+    path('', list_finanzas, name='list_finanzas'),
+    path('<int:id>/', list_finanzas_by_id, name='list_finanzas_by_id'),
+    path('agregar/', agregar_finanzas, name='agregar_finanzas'),
     #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
-    path('eliminar/<int:id>/', eliminar_alumno, name='eliminar_alumno'),
+    path('eliminar/<int:id>/', eliminar_finanzas, name='eliminar_finanzas'),
   ])),
   
 
