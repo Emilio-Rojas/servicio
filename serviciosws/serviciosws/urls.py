@@ -19,7 +19,7 @@ from serviciosws.ws.expose_alumno import *
 from serviciosws.ws.expose_arancel import *
 from serviciosws.ws.expose_biblioteca import *
 from serviciosws.ws.expose_libro import *
-from serviciosws.ws.expose_pagos import *
+from serviciosws.ws.expose_finanzas import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,6 +35,6 @@ urlpatterns = [
     path('api/v1/libro/', libro, name='libro'),
     path('api/v1/libro/<int:id>/', libro_by_id, name='libro_by_id'), 
 
-    path('api/v1/pagos/', pagos, name='pagos'),
-    path('api/v1/pagos/<int:id>/', pagos_by_id, name='pagos_by_id'), 
+    path('api/v1/finanzas/', finanzas, name='finanzas'),
+    path('api/v1/finanzas/<int:id>/', finanzas_by_id, name='finanzas_by_id'), 
 ]

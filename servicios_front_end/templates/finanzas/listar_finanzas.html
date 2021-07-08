@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
+{% block content %}
+<section class="index-content">
+    <div class="card">
+        <div class="card-header">
+            <h1>Administrar finanzas</h1>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-dark text-light text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">ALUMNO</th>
+                        <th scope="col">ARANCELES</th>
+                        <th scope="col">TIPO CUOTA</th>
+                        <th scope="col">N° CUOTA</th>
+                        <th scope="col">PAGADA</th>
+                        <th scope="col">FECHA VENCIMIENTO</th>
+                        <th scope="col">ACCION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if finanzas %}
+                        {% for finanza in finanzas %}
+                            <tr>
+                                <td>{{ finanza.id_alumno }}</td>
+                                <td>{{ finanza.id_aranceles.sede }}</td>
+                                <td>{{ finanza.tipo_cuota }}</td>
+                                <td>{{ finanza.num_cuota }}</td>
+                                <td>{{ finanza.pagada }}</td>
+                                <td>{{ finanza.fecha_vencimiento }}</td>
+                                <td>
+                                    {% comment %} <a class="btn btn-primary" href="/finanzas/editar/{{ finanza.id }}/" role="button">Editar</a> {% endcomment %}
+                                    <a class="btn btn-danger" href="/finanzas/eliminar/{{ finanza.id }}/" role="button">Eliminar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <h1>No hay registros de finanzas</h1>
+                    {% endif %}
+                </tbody>
+            </table>
+            <div>
+                <a class="btn btn-success" href="/finanzas/agregar/" role="button">Agregar</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

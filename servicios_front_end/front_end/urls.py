@@ -24,7 +24,7 @@ urlpatterns = [
     path('eliminar/<int:id>/', eliminar_aranceles, name='eliminar_aranceles'),
   ])),
 
-  path('pagos/', include([
+  path('finanzas/', include([
     path('<int:id>/', list_alumno_by_id, name='list_alumno_by_id'),
     path('agregar/', agregar_alumno, name='agregar_alumno'),
     #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),

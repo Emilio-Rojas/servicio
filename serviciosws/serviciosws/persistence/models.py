@@ -95,7 +95,7 @@ class Libro(models.Model):
                 }
 
 
-class Pagos(models.Model):
+class Finanzas(models.Model):
     id = models.AutoField(primary_key=True)
     id_alumno = models.ForeignKey(Alumno, models.DO_NOTHING, db_column='id_alumno')
     id_aranceles = models.ForeignKey(Aranceles, models.DO_NOTHING, db_column='id_aranceles')

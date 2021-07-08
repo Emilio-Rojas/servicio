@@ -29,7 +29,7 @@ class LibroForms(forms.Form):
     autor = forms.CharField()
     en_biblioteca = forms.CharField()
 
-class PagosForms(forms.Form):
+class FinanzasForms(forms.Form):
     id_alumno = forms.CharField()
     id_aranceles = forms.CharField()
     tipo_cuota = forms.CharField()

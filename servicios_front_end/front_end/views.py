@@ -141,3 +141,68 @@ def eliminar_aranceles(request, id):
             print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
     else:
         return render(request, 'aranceles/eliminar_aranceles.html')
+
+
+# Para los servicios de finanzas
+def list_finanzas(request):
+    print('find_all')
+    url = 'http://127.0.0.1:9000/api/v1/finanzas/'
+    try:
+        headers ={'Authorization' : 'Token'}
+        response = requests.get(url, headers=headers)
+        print('status_code: {0}'.format(response.status_code))
+        aranceles = response.json()
+        print (aranceles)
+        return render(request, 'aranceles/listar_aranceles.html', {'aranceles': aranceles})
+    except Exception as e:
+        print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e ))
+
+def list_finanzas_by_id(request, id):
+    print('find_by_id')
+    url = 'http://127.0.0.1:9000/api/v1/finanzas/{0}'.format(id)
+    try:
+        response = requests.get(url)
+        print('status_code: {0}'.format(response.status_code))
+        status = response.status_code
+
+        if status == 200:
+            finanzas = response.json()          
+
+    except Exception as e:
+        print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+
+def agregar_finanzas(request):
+    print('add_client')
+    url = 'http://127.0.0.1:9000/api/v1/finanzas/'
+    if request.method == "POST":
+        try:
+            finanzas_json = {
+                'sede': request.POST['sede'],
+                'direccion': request.POST['direccion'],
+                'comuna': request.POST['comuna'],                                                    
+            }
+            response = requests.post(url, json=finanzas_json)
+            print('status_code: {0}'.format(response.status_code))
+            finanzas = response.json()
+            return redirect('/finanzas/')
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+    else:
+        form = FinanzasForms()
+        return render(request, 'finanzas/agregar_finanzas.html', {'form': form})
+
+
+def eliminar_finanzas(request, id):
+    print('delete_by_id')
+    url = 'http://127.0.0.1:9000/api/v1/finanzas/{0}'.format(id)
+    print(request.method)
+    if request.method == 'POST':
+        try:
+            response = requests.delete(url)
+            print('id: {0}'.format(response.status_code))
+            print('messsage: {0}'.format(response.text))
+            return redirect('/finanzas/')     
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+    else:
+        return render(request, 'finanzas/eliminar_finanzas.html')
