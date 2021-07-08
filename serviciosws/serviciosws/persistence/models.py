@@ -24,6 +24,21 @@ class Alumno(models.Model):
     class Meta:
         managed = False
         db_table = 'alumno'
+    
+    def json(self):
+        return {
+                'rut': self.rut,
+                'nombres': self.nombres,
+                'apellido_paterno': self.apellido_paterno,
+                'apellido_materno': self.apellido_materno,
+                'email': self.email,
+                'direccion': self.direccion,
+                'comuna': self.comuna,
+                'matriculado': self.matriculado,
+                'morocidad': self.morocidad,
+                'is_regular': self.is_regular,
+                'telefono': self.telefono,
+                }
 
 
 class Aranceles(models.Model):
@@ -35,6 +50,13 @@ class Aranceles(models.Model):
         managed = False
         db_table = 'aranceles'
 
+    def json(self):
+        return {
+                'sede': self.sede,
+                'direccion': self.direccion,
+                'comuna': self.comuna,
+                }
+
 
 class Biblioteca(models.Model):
     nombre = models.CharField(max_length=100)
@@ -44,6 +66,13 @@ class Biblioteca(models.Model):
     class Meta:
         managed = False
         db_table = 'biblioteca'
+
+    def json(self):
+        return {
+                'nombre': self.nombre,
+                'direccion': self.direccion,
+                'comuna': self.comuna,
+                }
 
 
 class Finanzas(models.Model):
@@ -58,6 +87,16 @@ class Finanzas(models.Model):
         managed = False
         db_table = 'finanzas'
 
+    def json(self):
+        return {
+                'id_alumno': self.id_alumno.json(),
+                'id_aranceles': self.id_aranceles.json(),
+                'tipo_cuota': self.email,
+                'num_cuota': self.telefono,
+                'pagada': self.pagada,
+                'fecha_vencimiento': self.fecha_vencimiento,
+                }
+
 
 class Libro(models.Model):
     nombre = models.CharField(max_length=50, blank=True, null=True)
@@ -67,3 +106,10 @@ class Libro(models.Model):
     class Meta:
         managed = False
         db_table = 'libro'
+
+    def json(self):
+        return {
+                'nombre': self.nombre,
+                'autor': self.autor,
+                'en_biblioteca': self.en_biblioteca.json(),
+                }
