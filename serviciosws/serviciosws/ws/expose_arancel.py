@@ -19,7 +19,7 @@ scheme_add_arancel = {
 
 
 @api_view(['GET', 'POST'])
-def arancel(request):
+def aranceles(request):
     if request.method == 'GET':
         return find_all(request)
     if request.method == 'POST':
@@ -63,7 +63,7 @@ def find_all(request):
         return response
 
 @api_view(['GET', 'DELETE'])
-def arancel_by_id(request, id):
+def aranceles_by_id(request, id):
     if request.method == 'GET':
         return find_by_id(request, id)
     if request.method == 'DELETE':

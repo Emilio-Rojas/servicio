@@ -13,3 +13,25 @@ class AlumnoForms(forms.Form):
     morocidad = forms.CharField()
     is_regular = forms.CharField()
     telefono = forms.CharField()
+
+class ArancelesForms(forms.Form):
+    sede = forms.CharField()
+    direccion = forms.CharField()
+    comuna = forms.CharField()
+
+class BibliotecaForms(forms.Form):
+    nombre = forms.CharField()
+    direccion = forms.CharField()
+    comuna = forms.CharField()
+
+class LibroForms(forms.Form):
+    nombre = forms.CharField()
+    autor = forms.CharField()
+    en_biblioteca = forms.CharField()
+
+class PagosForms(forms.Form):
+    id_alumno = forms.CharField()
+    id_aranceles = forms.CharField()
+    tipo_cuota = forms.CharField()
+    num_cuota = forms.CharField()
+    fecha_vencimiento = forms.DateField()

@@ -60,20 +60,6 @@ def agregar_alumno(request):
         form = AlumnoForms()
         return render(request, 'alumno/agregar_alumno.html', {'form': form})
 
-    
-
-def editar_alumno(request, id):
-    print('find_all')
-    url = 'http://127.0.0.1:9000/api/v1/alumno/'
-    try:
-        headers ={'Authorization' : 'Token'}
-        response = requests.get(url, headers=headers)
-        print('status_code: {0}'.format(response.status_code))
-        alumnos = response.json()
-        print (alumnos)
-        return render(request, 'index.html', {'alumnos': alumnos})
-    except Exception as e:
-        print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e ))
 
 def eliminar_alumno(request, id):
     print('delete_by_id')
@@ -89,3 +75,69 @@ def eliminar_alumno(request, id):
             print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
     else:
         return render(request, 'alumno/eliminar_alumno.html')
+
+
+
+# Para los servicios de aranceles
+def list_aranceles(request):
+    print('find_all')
+    url = 'http://127.0.0.1:9000/api/v1/aranceles/'
+    try:
+        headers ={'Authorization' : 'Token'}
+        response = requests.get(url, headers=headers)
+        print('status_code: {0}'.format(response.status_code))
+        aranceles = response.json()
+        print (aranceles)
+        return render(request, 'aranceles/listar_aranceles.html', {'aranceles': aranceles})
+    except Exception as e:
+        print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e ))
+
+def list_aranceles_by_id(request, id):
+    print('find_by_id')
+    url = 'http://127.0.0.1:9000/api/v1/aranceles/{0}'.format(id)
+    try:
+        response = requests.get(url)
+        print('status_code: {0}'.format(response.status_code))
+        status = response.status_code
+
+        if status == 200:
+            alumno = response.json()          
+
+    except Exception as e:
+        print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+
+def agregar_aranceles(request):
+    print('add_client')
+    url = 'http://127.0.0.1:9000/api/v1/aranceles/'
+    if request.method == "POST":
+        try:
+            aranceles_json = {
+                'sede': request.POST['sede'],
+                'direccion': request.POST['direccion'],
+                'comuna': request.POST['comuna'],                                                    
+            }
+            response = requests.post(url, json=aranceles_json)
+            print('status_code: {0}'.format(response.status_code))
+            aranceles = response.json()
+            return redirect('/aranceles/')
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+    else:
+        form = ArancelesForms()
+        return render(request, 'aranceles/agregar_aranceles.html', {'form': form})
+
+
+def eliminar_aranceles(request, id):
+    print('delete_by_id')
+    url = 'http://127.0.0.1:9000/api/v1/aranceles/{0}'.format(id)
+    print(request.method)
+    if request.method == 'POST':
+        try:
+            response = requests.delete(url)
+            print('id: {0}'.format(response.status_code))
+            print('messsage: {0}'.format(response.text))
+            return redirect('/aranceles/')     
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+    else:
+        return render(request, 'aranceles/eliminar_aranceles.html')

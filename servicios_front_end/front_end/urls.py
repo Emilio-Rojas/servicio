@@ -16,11 +16,12 @@ urlpatterns = [
     path('eliminar/<int:id>/', eliminar_alumno, name='eliminar_alumno'),
   ])),
 
-  path('arancel/', include([
+  path('aranceles/', include([
+    path('', list_aranceles, name='list_aranceles'),
     path('<int:id>/', list_alumno_by_id, name='list_alumno_by_id'),
-    path('agregar/', agregar_alumno, name='agregar_alumno'),
+    path('agregar/', agregar_aranceles, name='agregar_aranceles'),
     #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
-    path('eliminar/<int:id>/', eliminar_alumno, name='eliminar_alumno'),
+    path('eliminar/<int:id>/', eliminar_aranceles, name='eliminar_aranceles'),
   ])),
 
   path('pagos/', include([

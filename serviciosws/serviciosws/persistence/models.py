@@ -54,11 +54,9 @@ class Aranceles(models.Model):
 
     def json(self):
         return {
-                'rut': self.rut,
-                'nombres': self.nombres,
-                'apellido_paterno': self.apellido_paterno,
-                'apellido_materno': self.apellido_materno,
-                'email': self.email,
+                'sede': self.sede,
+                'direccion': self.direccion,
+                'comuna': self.comuna,
                 }
 
 
@@ -74,11 +72,9 @@ class Biblioteca(models.Model):
 
     def json(self):
         return {
-                'codigo': self.codigo,
-                'detalle': self.detalle,
-                'email': self.email,
-                'telefono': self.telefono,
-                'cliente': self.codigo_cliente.json(),
+                'nombre': self.nombre,
+                'direccion': self.direccion,
+                'comuna': self.comuna,
                 }
 
 class Libro(models.Model):
@@ -93,11 +89,9 @@ class Libro(models.Model):
     
     def json(self):
         return {
-                'codigo': self.codigo,
-                'detalle': self.detalle,
-                'email': self.email,
-                'telefono': self.telefono,
-                'cliente': self.codigo_cliente.json(),
+                'nombre': self.nombre,
+                'autor': self.autor,
+                'en_biblioteca': self.en_biblioteca.json(),
                 }
 
 
@@ -116,9 +110,10 @@ class Pagos(models.Model):
 
     def json(self):
         return {
-                'codigo': self.codigo,
-                'detalle': self.detalle,
-                'email': self.email,
-                'telefono': self.telefono,
-                'cliente': self.codigo_cliente.json(),
+                'id_alumno': self.id_alumno.json(),
+                'id_aranceles': self.id_aranceles.json(),
+                'tipo_cuota': self.email,
+                'num_cuota': self.telefono,
+                'pagada': self.pagada,
+                'fecha_vencimiento': self.fecha_vencimiento,
                 }

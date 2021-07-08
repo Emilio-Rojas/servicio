@@ -26,8 +26,8 @@ urlpatterns = [
     path('api/v1/alumno/', alumno, name='alumno'),  
     path('api/v1/alumno/<int:id>/', alumno_by_id, name='alumno_by_id'),
 
-    path('api/v1/arancel/', arancel, name='arancel'),
-    path('api/v1/arancel/<int:id>/', arancel_by_id, name='arancel_by_id'), 
+    path('api/v1/aranceles/', aranceles, name='aranceles'),
+    path('api/v1/aranceles/<int:id>/', aranceles_by_id, name='aranceles_by_id'), 
 
     path('api/v1/biblioteca/', biblioteca, name='biblioteca'),
     path('api/v1/biblioteca/<int:id>/', biblioteca_by_id, name='biblioteca_by_id'),

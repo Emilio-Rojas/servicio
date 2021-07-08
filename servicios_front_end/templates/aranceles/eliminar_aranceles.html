@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Alumno{% endblock %}
+
+{% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
+{% block content %}
+<section class="index-content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>¿Desea eliminar aranceles seleccionado?</h1>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" class="formulario">
+                    {% csrf_token %}
+                    <div>
+                        <a class= "btn btn-dark" href="/">No, Volver</a>
+                        <button class="btn btn-danger" type="submit">Sí, Eliminar</button>
+                    </div>
+                </form>  
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}
