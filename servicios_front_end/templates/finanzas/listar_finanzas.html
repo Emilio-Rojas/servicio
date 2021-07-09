@@ -28,13 +28,13 @@
                         {% for finanza in finanzas %}
                             <tr>
                                 <td>{{ finanza.id_alumno }}</td>
-                                <td>{{ finanza.id_aranceles.sede }}</td>
+                                <td>{{ finanza.id_aranceles }}</td>
                                 <td>{{ finanza.tipo_cuota }}</td>
                                 <td>{{ finanza.num_cuota }}</td>
                                 <td>{{ finanza.pagada }}</td>
                                 <td>{{ finanza.fecha_vencimiento }}</td>
                                 <td>
-                                    {% comment %} <a class="btn btn-primary" href="/finanzas/editar/{{ finanza.id }}/" role="button">Editar</a> {% endcomment %}
+                                    <a class="btn btn-primary" href="" role="button">Pagar</a>
                                     <a class="btn btn-danger" href="/finanzas/eliminar/{{ finanza.id }}/" role="button">Eliminar</a>
                                 </td>
                             </tr>

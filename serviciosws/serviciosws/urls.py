@@ -17,8 +17,6 @@ from django.contrib import admin
 from django.urls import path
 from serviciosws.ws.expose_alumno import *
 from serviciosws.ws.expose_arancel import *
-from serviciosws.ws.expose_biblioteca import *
-from serviciosws.ws.expose_libro import *
 from serviciosws.ws.expose_finanzas import *
 
 urlpatterns = [
@@ -28,12 +26,6 @@ urlpatterns = [
 
     path('api/v1/aranceles/', aranceles, name='aranceles'),
     path('api/v1/aranceles/<int:id>/', aranceles_by_id, name='aranceles_by_id'), 
-
-    path('api/v1/biblioteca/', biblioteca, name='biblioteca'),
-    path('api/v1/biblioteca/<int:id>/', biblioteca_by_id, name='biblioteca_by_id'),
-
-    path('api/v1/libro/', libro, name='libro'),
-    path('api/v1/libro/<int:id>/', libro_by_id, name='libro_by_id'), 
 
     path('api/v1/finanzas/', finanzas, name='finanzas'),
     path('api/v1/finanzas/<int:id>/', finanzas_by_id, name='finanzas_by_id'), 

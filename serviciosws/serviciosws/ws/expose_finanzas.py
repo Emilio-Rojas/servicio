@@ -35,14 +35,13 @@ def add_finanzas(request):
     try:
         validate(instance=finanzas, schema=scheme_add_finanzas)
         new_finanzas = Finanzas(
-                            id_alumno = int(finanzas.get('id_alumno')),
-                            id_aranceles = int(finanzas.get('id_aranceles')),
+                            id_alumno = finanzas.get('id_alumno'),
+                            id_aranceles = finanzas.get('id_aranceles'),
                             tipo_cuota = finanzas.get('tipo_cuota'),
-                            num_cuota = int(finanzas.get('num_cuota')),
+                            num_cuota = finanzas.get('num_cuota'),
                             pagada = finanzas.get('pagada'),
                             fecha_vencimiento = finanzas.get('fecha_vencimiento'),
                         )
-        print(finanzas)
         new_finanzas.save() 
         return JsonResponse(new_finanzas.json(),  content_type="application/json", 
                         json_dumps_params={'ensure_ascii': False})
