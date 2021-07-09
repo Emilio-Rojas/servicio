@@ -177,13 +177,13 @@ def agregar_finanzas(request):
     if request.method == "POST":
         try:
             print("Acaaa")
-            print(request.POST['pagada'])
+            print(request.POST['tipo_cuota'])
             finanzas_json = {
                 'id_alumno': request.POST['id_alumno'],
                 'id_aranceles': request.POST['id_aranceles'],
                 'tipo_cuota': request.POST['tipo_cuota'],  
                 'num_cuota': request.POST['num_cuota'],  
-                'pagada': 1 if request.POST['pagada'] == 'on' else 0,      
+                'pagada': True if request.POST['pagada'] == '1' else False,      
                 'fecha_vencimiento': request.POST['fecha_vencimiento'],                                                
             }
             print (finanzas_json)

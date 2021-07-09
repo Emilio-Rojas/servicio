@@ -30,9 +30,9 @@ class LibroForms(forms.Form):
     en_biblioteca = forms.CharField()
 
 class FinanzasForms(forms.Form):
-    id_alumno = forms.CharField()
-    id_aranceles = forms.CharField()
+    id_alumno = forms.IntegerField()
+    id_aranceles = forms.IntegerField()
     tipo_cuota = forms.CharField()
-    num_cuota = forms.CharField()
-    pagada = forms.BooleanField(required=False, initial=False)
-    fecha_vencimiento = forms.DateField()
+    num_cuota = forms.IntegerField()
+    pagada = forms.CharField()
+    fecha_vencimiento = forms.CharField()

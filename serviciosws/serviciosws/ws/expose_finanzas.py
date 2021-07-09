@@ -9,12 +9,12 @@ from rest_framework import status
 scheme_add_finanzas = { 
     "type" : "object",
     "properties": {
-        "id_alumno":{"type" : "id_alumno"},
-        "id_aranceles":{"type" : "id_aranceles"},
+        "id_alumno":{"type" : "string"},
+        "id_aranceles":{"type" : "string"},
         "tipo_cuota":{"type" : "string"},
-        "num_cuota":{"type" : "int"},
+        "num_cuota":{"type" : "string"},
         "pagada":{"type" : "boolean"},
-        "fecha_vencimiento":{"type" : "date"},
+        "fecha_vencimiento":{"type" : "string"},
     },
     "required": ["id_alumno", "id_aranceles", "tipo_cuota", "num_cuota", "pagada", "fecha_vencimiento"],
     "propertiesOrder": ["id_alumno", "id_aranceles", "tipo_cuota", "num_cuota", "pagada", "fecha_vencimiento"],
@@ -34,14 +34,15 @@ def add_finanzas(request):
     print('finanzas -> {0}'.format(finanzas))
     try:
         validate(instance=finanzas, schema=scheme_add_finanzas)
-        new_finanzas = finanzas(
-                            id_alumno = finanzas.get('id_alumno'),
-                            id_aranceles = finanzas.get('id_aranceles'),
+        new_finanzas = Finanzas(
+                            id_alumno = int(finanzas.get('id_alumno')),
+                            id_aranceles = int(finanzas.get('id_aranceles')),
                             tipo_cuota = finanzas.get('tipo_cuota'),
-                            num_cuota = finanzas.get('num_cuota'),
+                            num_cuota = int(finanzas.get('num_cuota')),
                             pagada = finanzas.get('pagada'),
                             fecha_vencimiento = finanzas.get('fecha_vencimiento'),
                         )
+        print(finanzas)
         new_finanzas.save() 
         return JsonResponse(new_finanzas.json(),  content_type="application/json", 
                         json_dumps_params={'ensure_ascii': False})
