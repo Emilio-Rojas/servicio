@@ -1,0 +1,78 @@
+CREATE TABLE alumno (
+  id int NOT NULL AUTO_INCREMENT,
+  rut varchar(20) NOT NULL,
+  nombres varchar(50) NOT NULL,
+  apellido_paterno varchar(50) NOT NULL,
+  apellido_materno varchar(50) NOT NULL,
+  email varchar(100) NOT NULL,
+  direccion varchar(100) NOT NULL,
+  comuna varchar(50) NOT NULL,
+  carrera varchar(20) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE tipo (
+  id int NOT NULL AUTO_INCREMENT,
+  nombre varchar(20) NOT NULL,
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE finanzas (
+  id int NOT NULL AUTO_INCREMENT,
+  id_alumno int NOT NULL,
+  id_tipo int NOT NULL,
+  num_cuota int NOT NULL,
+  valor int NOT NULL,
+  pagada boolean DEFAULT NULL,
+  fecha_vencimiento date NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE ramos (
+  id int NOT NULL AUTO_INCREMENT,
+  nombre varchar(20) NOT NULL,
+  creditos int NOT NULL,
+  obligatorio boolean NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE toma_ramos (
+  id int NOT NULL AUTO_INCREMENT,
+  id_ramo int NOT NULL,
+  id_alumno int(10) NOT NULL,
+  sección varchar(20) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE libro (
+  id int NOT NULL AUTO_INCREMENT,
+  nombre varchar(20) NOT NULL,
+  editorial varchar(20) NOT NULL,
+  autor varchar(20) NOT NULL,
+
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE reserva_libro (
+  id int NOT NULL AUTO_INCREMENT,
+  id_libro int NOT NULL,
+  id_alumno int(10) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
+
+INSERT INTO `serviciosws`.`alumno`
+(`id`,`rut`,`nombres`,`apellido_paterno`,`apellido_materno`,`email`,`direccion`,`comuna`,
+`matriculado`,`morocidad`,`is_regular`,`telefono`)
+VALUES(1, "12.345.678-9", "Manuel", "soto", "soto", "ma@gmail.com", "Av Test", "Santiago", True, True, True, "");
+INSERT INTO `serviciosws`.`alumno`
+(`id`,`rut`,`nombres`,`apellido_paterno`,`apellido_materno`,`email`,`direccion`,`comuna`,
+`matriculado`,`morocidad`,`is_regular`,`telefono`)
+VALUES(2, "98.765.432-1", "Rodrigo", "Villanueva", "Carrasco", "rovilla@gmail.com", "Av Test", "Santiago", True, True, True, "");
+
+
+INSERT INTO `serviciosws`.`aranceles`
+(`id`,`sede`,`direccion`,`comuna`)
+VALUES(1, "Padre alonso de ovalle", "Padre alonso de ovalle 1255", "Santiago");
+INSERT INTO `serviciosws`.`aranceles`
+(`id`,`sede`,`direccion`,`comuna`)
+VALUES(2, "San Joaquin", "San Joaquin", "San Joaquin");
+
