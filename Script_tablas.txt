@@ -2,30 +2,32 @@ CREATE TABLE alumno (
   id int NOT NULL AUTO_INCREMENT,
   rut varchar(20) NOT NULL,
   nombres varchar(50) NOT NULL,
-  apellido_paterno varchar(50) NOT NULL,
-  apellido_materno varchar(50) NOT NULL,
+  apellidos varchar(50) NOT NULL,
   email varchar(100) NOT NULL,
   direccion varchar(100) NOT NULL,
   comuna varchar(50) NOT NULL,
   carrera varchar(20) NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
-CREATE TABLE tipo (
+CREATE TABLE tipo_cuota (
   id int NOT NULL AUTO_INCREMENT,
   nombre varchar(20) NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE finanzas (
   id int NOT NULL AUTO_INCREMENT,
   id_alumno int NOT NULL,
-  id_tipo int NOT NULL,
+  id_tipo_cuota int NOT NULL,
   num_cuota int NOT NULL,
   valor int NOT NULL,
   pagada boolean DEFAULT NULL,
   fecha_vencimiento date NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_alumno) REFERENCES alumno(id),
+  FOREIGN KEY (id_tipo_cuota) REFERENCES tipo_cuota(id)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE ramos (
   id int NOT NULL AUTO_INCREMENT,
@@ -37,10 +39,12 @@ CREATE TABLE ramos (
 
 CREATE TABLE toma_ramos (
   id int NOT NULL AUTO_INCREMENT,
-  id_ramo int NOT NULL,
   id_alumno int(10) NOT NULL,
-  sección varchar(20) NOT NULL,
-  PRIMARY KEY (id)
+  id_ramo int NOT NULL,
+  seccion varchar(20) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_alumno) REFERENCES alumno(id),
+  FOREIGN KEY (id_ramo) REFERENCES ramos(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE libro (
@@ -48,31 +52,29 @@ CREATE TABLE libro (
   nombre varchar(20) NOT NULL,
   editorial varchar(20) NOT NULL,
   autor varchar(20) NOT NULL,
-
   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE reserva_libro (
   id int NOT NULL AUTO_INCREMENT,
-  id_libro int NOT NULL,
   id_alumno int(10) NOT NULL,
-  PRIMARY KEY (id)
+  id_libro int NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_alumno) REFERENCES alumno(id),
+  FOREIGN KEY (id_libro) REFERENCES libro(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb3;
 
-INSERT INTO `serviciosws`.`alumno`
-(`id`,`rut`,`nombres`,`apellido_paterno`,`apellido_materno`,`email`,`direccion`,`comuna`,
-`matriculado`,`morocidad`,`is_regular`,`telefono`)
-VALUES(1, "12.345.678-9", "Manuel", "soto", "soto", "ma@gmail.com", "Av Test", "Santiago", True, True, True, "");
-INSERT INTO `serviciosws`.`alumno`
-(`id`,`rut`,`nombres`,`apellido_paterno`,`apellido_materno`,`email`,`direccion`,`comuna`,
-`matriculado`,`morocidad`,`is_regular`,`telefono`)
-VALUES(2, "98.765.432-1", "Rodrigo", "Villanueva", "Carrasco", "rovilla@gmail.com", "Av Test", "Santiago", True, True, True, "");
 
+INSERT INTO tipo_cuota VALUES(1, "Matricula");
+INSERT INTO tipo_cuota VALUES(2, "Mensualidad");
 
-INSERT INTO `serviciosws`.`aranceles`
-(`id`,`sede`,`direccion`,`comuna`)
-VALUES(1, "Padre alonso de ovalle", "Padre alonso de ovalle 1255", "Santiago");
-INSERT INTO `serviciosws`.`aranceles`
-(`id`,`sede`,`direccion`,`comuna`)
-VALUES(2, "San Joaquin", "San Joaquin", "San Joaquin");
+INSERT INTO ramos VALUES(1, "Matematicas aplicada", 12, True);
+INSERT INTO ramos VALUES(2, "Computación", 12, True);
+INSERT INTO ramos VALUES(3, "Etica", 4, True);
+INSERT INTO ramos VALUES(4, "Comunicación Oral", 8, False);
+
+INSERT INTO libro VALUES(1, "Harry Potter", "NONE", "J.K. Rowling");
+INSERT INTO libro VALUES(2, "Indiana Jones", "NONE", "None");
+INSERT INTO libro VALUES(3, "Eragon", "NONE", "Cristopher Paolini");
+INSERT INTO libro VALUES(4, "The ring of lord", "NONE", "J. R. R. Tolkien");
 

@@ -75,7 +75,7 @@ class TipoCuota(models.Model):
 class TomaRamos(models.Model):
     id_alumno = models.ForeignKey(Alumno, models.DO_NOTHING, db_column='id_alumno')
     id_ramo = models.ForeignKey(Ramos, models.DO_NOTHING, db_column='id_ramo')
-    sección = models.CharField(max_length=20)
+    seccion = models.CharField(max_length=20)
 
     class Meta:
         managed = False
