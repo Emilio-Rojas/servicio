@@ -11,105 +11,72 @@ from django.db import models
 class Alumno(models.Model):
     rut = models.CharField(max_length=20)
     nombres = models.CharField(max_length=50)
-    apellido_paterno = models.CharField(max_length=50)
-    apellido_materno = models.CharField(max_length=50)
+    apellidos = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
     direccion = models.CharField(max_length=100)
     comuna = models.CharField(max_length=50)
-    matriculado = models.IntegerField()
-    morocidad = models.IntegerField()
-    is_regular = models.IntegerField()
-    telefono = models.CharField(max_length=50, blank=True, null=True)
+    carrera = models.CharField(max_length=20)
 
     class Meta:
         managed = False
         db_table = 'alumno'
-    
-    def json(self):
-        return {
-                'rut': self.rut,
-                'nombres': self.nombres,
-                'apellido_paterno': self.apellido_paterno,
-                'apellido_materno': self.apellido_materno,
-                'email': self.email,
-                'direccion': self.direccion,
-                'comuna': self.comuna,
-                'matriculado': self.matriculado,
-                'morocidad': self.morocidad,
-                'is_regular': self.is_regular,
-                'telefono': self.telefono,
-                }
-
-
-class Aranceles(models.Model):
-    sede = models.CharField(max_length=50)
-    direccion = models.CharField(max_length=100)
-    comuna = models.CharField(max_length=50)
-
-    class Meta:
-        managed = False
-        db_table = 'aranceles'
-
-    def json(self):
-        return {
-                'sede': self.sede,
-                'direccion': self.direccion,
-                'comuna': self.comuna,
-                }
-
-
-class Biblioteca(models.Model):
-    nombre = models.CharField(max_length=100)
-    direccion = models.CharField(max_length=100)
-    comuna = models.CharField(max_length=50)
-
-    class Meta:
-        managed = False
-        db_table = 'biblioteca'
-
-    def json(self):
-        return {
-                'nombre': self.nombre,
-                'direccion': self.direccion,
-                'comuna': self.comuna,
-                }
 
 
 class Finanzas(models.Model):
-    id_alumno = models.CharField(max_length=10)
-    id_aranceles = models.CharField(max_length=10)
-    tipo_cuota = models.CharField(max_length=50, blank=True, null=True)
-    num_cuota = models.CharField(max_length=10)
+    id_alumno = models.ForeignKey(Alumno, models.DO_NOTHING, db_column='id_alumno')
+    id_tipo_cuota = models.ForeignKey('TipoCuota', models.DO_NOTHING, db_column='id_tipo_cuota')
+    num_cuota = models.IntegerField()
+    valor = models.IntegerField()
     pagada = models.IntegerField(blank=True, null=True)
-    fecha_vencimiento = models.CharField(max_length=20)
+    fecha_vencimiento = models.DateField()
 
     class Meta:
         managed = False
         db_table = 'finanzas'
 
-    def json(self):
-        return {
-                'id_alumno': self.id_alumno.json(),
-                'id_aranceles': self.id_aranceles.json(),
-                'tipo_cuota': self.email,
-                'num_cuota': self.telefono,
-                'pagada': self.pagada,
-                'fecha_vencimiento': self.fecha_vencimiento,
-                }
-
 
 class Libro(models.Model):
-    nombre = models.CharField(max_length=50, blank=True, null=True)
-    autor = models.CharField(max_length=50, blank=True, null=True)
-    en_biblioteca = models.ForeignKey(Biblioteca, models.DO_NOTHING, db_column='en_biblioteca')
+    nombre = models.CharField(max_length=20)
+    editorial = models.CharField(max_length=20)
+    autor = models.CharField(max_length=20)
 
     class Meta:
         managed = False
         db_table = 'libro'
 
-    def json(self):
-        return {
-                'nombre': self.nombre,
-                'autor': self.autor,
-                'en_biblioteca': self.en_biblioteca.json(),
-                }
+
+class Ramos(models.Model):
+    nombre = models.CharField(max_length=20)
+    creditos = models.IntegerField()
+    obligatorio = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'ramos'
+
+
+class ReservaLibro(models.Model):
+    id_alumno = models.ForeignKey(Alumno, models.DO_NOTHING, db_column='id_alumno')
+    id_libro = models.ForeignKey(Libro, models.DO_NOTHING, db_column='id_libro')
+
+    class Meta:
+        managed = False
+        db_table = 'reserva_libro'
+
+
+class TipoCuota(models.Model):
+    nombre = models.CharField(max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'tipo_cuota'
+
+
+class TomaRamos(models.Model):
+    id_alumno = models.ForeignKey(Alumno, models.DO_NOTHING, db_column='id_alumno')
+    id_ramo = models.ForeignKey(Ramos, models.DO_NOTHING, db_column='id_ramo')
+    sección = models.CharField(max_length=20)
+
+    class Meta:
+        managed = False
+        db_table = 'toma_ramos'
