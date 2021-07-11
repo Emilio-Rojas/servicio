@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block title %}Finanzas{% endblock %}
+{% block title %}Toma de ramos{% endblock %}
 
 {% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
 {% block content %}
@@ -9,17 +9,16 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h1>Añadir Matricula/Mensualidad alumnos</h1>
+                <h1>¿Desea eliminar ramo seleccionado para el alumno?</h1>
             </div>
             <div class="card-body">
-                <form method="POST" class="formulario" action="">
+                <form method="POST" enctype="multipart/form-data" class="formulario">
                     {% csrf_token %}
-                    {{ form.as_p }}
                     <div>
-                        <a class="btn btn-secondary" href="/">Volver</a>
-                        <button class="btn btn-success" type="submit">Agregar</button>
+                        <a class= "btn btn-dark" href="/">No, Volver</a>
+                        <button class="btn btn-danger" type="submit">Sí, Eliminar</button>
                     </div>
-                </form>
+                </form>  
             </div>
         </div>
     </div>

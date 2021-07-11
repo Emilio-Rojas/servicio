@@ -20,9 +20,7 @@
                         <th scope="col">EMAIL</th>
                         <th scope="col">DIRECCION</th>
                         <th scope="col">COMUNA</th>
-                        <th scope="col">MATRICULADO</th>
-                        <th scope="col">MOROCIDAD</th>
-                        <th scope="col">REGULAR</th>
+                        <th scope="col">CARRERA</th>
                         <th scope="col">ACCION</th>
                     </tr>
                 </thead>
@@ -32,13 +30,11 @@
                             <tr>
                                 <td>{{ alumno.rut }}</td>
                                 <td>{{ alumno.nombres }}</td>
-                                <td>{{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}</td>
+                                <td>{{ alumno.apellidos }}</td>
                                 <td>{{ alumno.email }}</td>
                                 <td>{{ alumno.direccion }}</td>
                                 <td>{{ alumno.comuna }}</td>
-                                <td>{{ alumno.matriculado }}</td>
-                                <td>{{ alumno.morocidad }}</td>
-                                <td>{{ alumno.is_regular }}</td>
+                                <td>{{ alumno.carrera }}</td>
                                 <td>
                                     <!-- <a class="btn btn-primary" href="/alumno/editar/{{ alumno.id }}/" role="button">Editar</a> -->
                                     <a class="btn btn-danger" href="/alumno/eliminar/{{ alumno.id }}/" role="button">Eliminar</a>

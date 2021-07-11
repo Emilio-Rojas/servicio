@@ -24,9 +24,12 @@ urlpatterns = [
     path('api/v1/alumno/', alumno, name='alumno'),  
     path('api/v1/alumno/<int:id>/', alumno_by_id, name='alumno_by_id'),
 
-    path('api/v1/aranceles/', aranceles, name='aranceles'),
-    path('api/v1/aranceles/<int:id>/', aranceles_by_id, name='aranceles_by_id'), 
+    path('api/v1/toma-ramos/', toma_ramos, name='toma-ramos'),
+    path('api/v1/toma-ramos/<int:id>/', toma_ramos_by_id, name='toma_ramos_by_id'), 
 
     path('api/v1/finanzas/', finanzas, name='finanzas'),
     path('api/v1/finanzas/<int:id>/', finanzas_by_id, name='finanzas_by_id'), 
+
+    path('api/v1/reserva-libro/', reserva_libro, name='reserva_libro'),
+    path('api/v1/reserva-libro/<int:id>/', reserva_libro_by_id, name='reserva_libro_by_id'), 
 ]

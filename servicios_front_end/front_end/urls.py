@@ -16,15 +16,23 @@ urlpatterns = [
     path('eliminar/<int:id>/', eliminar_alumno, name='eliminar_alumno'),
   ])),
 
-  path('aranceles/', include([
-    path('', list_aranceles, name='list_aranceles'),
-    path('<int:id>/', list_alumno_by_id, name='list_alumno_by_id'),
-    path('agregar/', agregar_aranceles, name='agregar_aranceles'),
+  path('finanzas/', include([
+    path('', list_finanzas, name='list_finanzas'),
+    path('<int:id>/', list_finanzas_by_id, name='list_finanzas_by_id'),
+    path('agregar/', agregar_finanzas, name='agregar_finanzas'),
     #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
-    path('eliminar/<int:id>/', eliminar_aranceles, name='eliminar_aranceles'),
+    path('eliminar/<int:id>/', eliminar_finanzas, name='eliminar_finanzas'),
   ])),
 
-  path('finanzas/', include([
+  path('toma-ramos/', include([
+    path('', list_finanzas, name='list_finanzas'),
+    path('<int:id>/', list_finanzas_by_id, name='list_finanzas_by_id'),
+    path('agregar/', agregar_finanzas, name='agregar_finanzas'),
+    #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
+    path('eliminar/<int:id>/', eliminar_finanzas, name='eliminar_finanzas'),
+  ])),
+
+  path('reserva-libro/', include([
     path('', list_finanzas, name='list_finanzas'),
     path('<int:id>/', list_finanzas_by_id, name='list_finanzas_by_id'),
     path('agregar/', agregar_finanzas, name='agregar_finanzas'),
