@@ -1,49 +1,40 @@
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from serviciosws.persistence.models import Finanzas
+from serviciosws.persistence.models import ReservaLibro
 import json
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from rest_framework import status
 
-scheme_add_finanzas = { 
+scheme_add_reserva_libros = { 
     "type" : "object",
     "properties": {
-        "id_alumno":{"type" : "string"},
-        "id_aranceles":{"type" : "string"},
-        "tipo_cuota":{"type" : "string"},
-        "num_cuota":{"type" : "string"},
-        "pagada":{"type" : "boolean"},
-        "fecha_vencimiento":{"type" : "string"},
+        "id_alumno":{"type" : "int"},
+        "id_libro":{"type" : "int"},
     },
-    "required": ["id_alumno", "id_aranceles", "tipo_cuota", "num_cuota", "pagada", "fecha_vencimiento"],
-    "propertiesOrder": ["id_alumno", "id_aranceles", "tipo_cuota", "num_cuota", "pagada", "fecha_vencimiento"],
+    "required": ["id_alumno", "id_libro"],
+    "propertiesOrder": ["id_alumno", "id_libro"],
 }
 
-
 @api_view(['GET', 'POST'])
-def finanzas(request):
+def reserva_libros(request):
     if request.method == 'GET':
         return find_all(request)
     if request.method == 'POST':
-        return add_finanzas(request)
+        return add_reserva_libros(request)
 
-def add_finanzas(request):
-    print('method add_finanzas')
-    finanzas = json.loads(request.body.decode('utf-8'))
-    print('finanzas -> {0}'.format(finanzas))
+def add_reserva_libros(request):
+    print('method add_reserva_libros')
+    reserva_libros = json.loads(request.body.decode('utf-8'))
+    print('reserva_libros -> {0}'.format(reserva_libros))
     try:
-        validate(instance=finanzas, schema=scheme_add_finanzas)
-        new_finanzas = Finanzas(
-                            id_alumno = finanzas.get('id_alumno'),
-                            id_aranceles = finanzas.get('id_aranceles'),
-                            tipo_cuota = finanzas.get('tipo_cuota'),
-                            num_cuota = finanzas.get('num_cuota'),
-                            pagada = finanzas.get('pagada'),
-                            fecha_vencimiento = finanzas.get('fecha_vencimiento'),
+        validate(instance=reserva_libros, schema=scheme_add_reserva_libros)
+        new_reserva_libros = ReservaLibro(
+                            id_alumno = reserva_libros.get('id_alumno'),
+                            id_libro = reserva_libros.get('id_libro'),
                         )
-        new_finanzas.save() 
-        return JsonResponse(new_finanzas.json(),  content_type="application/json", 
+        new_reserva_libros.save() 
+        return JsonResponse(new_reserva_libros.json(),  content_type="application/json", 
                         json_dumps_params={'ensure_ascii': False})
     except ValidationError as err:
         print(err)        
@@ -52,24 +43,24 @@ def add_finanzas(request):
         return response        
     except Exception as err:
         print(err)
-        response = HttpResponse('Error al crear el Finanzas en el sistema')
+        response = HttpResponse('Error al crear el ReservaLibro en el sistema')
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR    
         return response
 
 def find_all(request):
     print('method find_all')
     try:
-        finanzas = Finanzas.objects.all().order_by('id').values()
-        return JsonResponse(list(finanzas), safe=False,
+        reserva_libros = ReservaLibro.objects.all().order_by('id').values()
+        return JsonResponse(list(reserva_libros), safe=False,
             content_type="application/json", json_dumps_params={'ensure_ascii': False})
     except Exception as err:
         print(err)
-        response = HttpResponse('Error al buscar los Finanzas en la base de datos')
+        response = HttpResponse('Error al buscar los ReservaLibro en la base de datos')
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return response
 
 @api_view(['GET', 'DELETE'])
-def finanzas_by_id(request, id):
+def reserva_libros_by_id(request, id):
     if request.method == 'GET':
         return find_by_id(request, id)
     if request.method == 'DELETE':
@@ -78,12 +69,12 @@ def finanzas_by_id(request, id):
 def find_by_id(request, id):
     print('find_by_id')
     try:
-        finanzas = Finanzas.objects.get(id = id)
-        return JsonResponse(finanzas.json(), content_type="application/json", 
+        reserva_libros = ReservaLibro.objects.get(id = id)
+        return JsonResponse(reserva_libros.json(), content_type="application/json", 
                 json_dumps_params={'ensure_ascii': False})
-    except Finanzas.DoesNotExist as err: 
+    except ReservaLibro.DoesNotExist as err: 
         print(err)
-        response = HttpResponse('Finanzas no encontrado. Error al buscar por id -> {0}'.format(id))
+        response = HttpResponse('ReservaLibro no encontrado. Error al buscar por id -> {0}'.format(id))
         response.status_code = status.HTTP_404_NOT_FOUND
         return response
     except Exception as err:
@@ -95,14 +86,14 @@ def find_by_id(request, id):
 def delete_by_id(request, id):
     print('find_by_id')
     try:
-        finanzas = Finanzas.objects.get(id = id)
-        finanzas.delete()
-        response = HttpResponse('Finanzas eliminado -> {0}'.format(id))
+        reserva_libros = ReservaLibro.objects.get(id = id)
+        reserva_libros.delete()
+        response = HttpResponse('ReservaLibro eliminado -> {0}'.format(id))
         response.status_code = status.HTTP_200_OK
         return response
-    except Finanzas.DoesNotExist as err: 
+    except ReservaLibro.DoesNotExist as err: 
         print(err)
-        response = HttpResponse('Finanzas no encontrado. Error al borrando por id -> {0}'.format(id))
+        response = HttpResponse('ReservaLibro no encontrado. Error al borrando por id -> {0}'.format(id))
         response.status_code = status.HTTP_404_NOT_FOUND
         return response
     except Exception as err:

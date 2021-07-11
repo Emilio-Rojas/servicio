@@ -21,6 +21,17 @@ class Alumno(models.Model):
         managed = False
         db_table = 'alumno'
 
+    def json(self):
+        return {
+                'rut': self.rut,
+                'nombres': self.nombres,
+                'apellidos': self.apellidos,
+                'email': self.email,
+                'direccion': self.direccion,
+                'comuna': self.comuna,
+                'carrera': self.carrera,
+                }
+
 
 class Finanzas(models.Model):
     id_alumno = models.ForeignKey(Alumno, models.DO_NOTHING, db_column='id_alumno')
@@ -34,6 +45,16 @@ class Finanzas(models.Model):
         managed = False
         db_table = 'finanzas'
 
+    def json(self):
+        return {
+                'id_alumno': self.id_alumno,
+                'id_tipo_cuota': self.id_tipo_cuota,
+                'num_cuota': self.num_cuota,
+                'valor': self.valor,
+                'pagada': self.pagada,
+                'fecha_vencimiento': self.fecha_vencimiento,
+                }
+
 
 class Libro(models.Model):
     nombre = models.CharField(max_length=20)
@@ -43,6 +64,13 @@ class Libro(models.Model):
     class Meta:
         managed = False
         db_table = 'libro'
+
+    def json(self):
+        return {
+                'nombre': self.nombre,
+                'editorial': self.editorial,
+                'autor': self.autor,
+                }
 
 
 class Ramos(models.Model):
@@ -54,6 +82,13 @@ class Ramos(models.Model):
         managed = False
         db_table = 'ramos'
 
+    def json(self):
+        return {
+                'nombre': self.nombre,
+                'creditos': self.creditos,
+                'obligatorio': self.obligatorio,
+                }
+
 
 class ReservaLibro(models.Model):
     id_alumno = models.ForeignKey(Alumno, models.DO_NOTHING, db_column='id_alumno')
@@ -63,6 +98,12 @@ class ReservaLibro(models.Model):
         managed = False
         db_table = 'reserva_libro'
 
+    def json(self):
+        return {
+                'id_alumno': self.id_alumno,
+                'id_libro': self.id_libro,
+                }
+
 
 class TipoCuota(models.Model):
     nombre = models.CharField(max_length=20)
@@ -70,6 +111,11 @@ class TipoCuota(models.Model):
     class Meta:
         managed = False
         db_table = 'tipo_cuota'
+
+    def json(self):
+        return {
+                'id_alumno': self.id_alumno,
+                }
 
 
 class TomaRamos(models.Model):
@@ -80,3 +126,10 @@ class TomaRamos(models.Model):
     class Meta:
         managed = False
         db_table = 'toma_ramos'
+
+    def json(self):
+        return {
+                'id_alumno': self.id_alumno,
+                'id_ramo': self.id_ramo,
+                'seccion': self.seccion,
+                }

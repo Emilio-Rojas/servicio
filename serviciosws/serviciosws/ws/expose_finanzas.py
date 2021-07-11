@@ -10,14 +10,14 @@ scheme_add_finanzas = {
     "type" : "object",
     "properties": {
         "id_alumno":{"type" : "string"},
-        "id_aranceles":{"type" : "string"},
-        "tipo_cuota":{"type" : "string"},
-        "num_cuota":{"type" : "string"},
+        "id_tipo_cuota":{"type" : "string"},
+        "num_cuota":{"type" : "int"},
+        "valor":{"type" : "int"},
         "pagada":{"type" : "boolean"},
         "fecha_vencimiento":{"type" : "string"},
     },
-    "required": ["id_alumno", "id_aranceles", "tipo_cuota", "num_cuota", "pagada", "fecha_vencimiento"],
-    "propertiesOrder": ["id_alumno", "id_aranceles", "tipo_cuota", "num_cuota", "pagada", "fecha_vencimiento"],
+    "required": ["id_alumno", "id_tipo_cuota", "num_cuota", "valor", "pagada", "fecha_vencimiento"],
+    "propertiesOrder": ["id_alumno", "id_tipo_cuota", "num_cuota", "valor", "pagada", "fecha_vencimiento"],
 }
 
 
@@ -39,6 +39,7 @@ def add_finanzas(request):
                             id_aranceles = finanzas.get('id_aranceles'),
                             tipo_cuota = finanzas.get('tipo_cuota'),
                             num_cuota = finanzas.get('num_cuota'),
+                            valor = finanzas.get('valor'),
                             pagada = finanzas.get('pagada'),
                             fecha_vencimiento = finanzas.get('fecha_vencimiento'),
                         )

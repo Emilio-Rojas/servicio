@@ -11,18 +11,14 @@ scheme_add_alumno = {
     "properties": {
         "rut":{"type" : "string"},
         "nombres":{"type" : "string"},
-        "apellido_paterno":{"type" : "string"},
-        "apellido_materno":{"type" : "string"},
+        "apellidos":{"type" : "string"},
         "email":{"type" : "string"},
         "direccion":{"type" : "string"},
         "comuna":{"type" : "string"},
-        "matriculado":{"type" : "boolean"},
-        "morocidad":{"type" : "boolean"},
-        "is_regular":{"type" : "boolean"},
-        "telefono":{"type" : "string"},
+        "carrera":{"type" : "string"},
     },
-    "required": ["rut", "nombres", "apellido_paterno", "apellido_materno", "email", "direccion", "comuna", "matriculado", "morocidad", "is_regular", "telefono"],
-    "propertiesOrder": ["rut", "nombres", "apellido_paterno", "apellido_materno", "email", "direccion", "comuna", "matriculado", "morocidad", "is_regular", "telefono"],
+    "required": ["rut", "nombres", "apellidos", "email", "direccion", "comuna", "carrera"],
+    "propertiesOrder": ["rut", "nombres", "apellidos", "email", "direccion", "comuna", "carrera"],
 }
 
 

@@ -4,35 +4,25 @@ from django import forms
 class AlumnoForms(forms.Form):
     rut = forms.CharField()
     nombres = forms.CharField()
-    apellido_paterno = forms.CharField()
-    apellido_materno = forms.CharField()
+    apellidos = forms.CharField()
     email = forms.EmailField()
     direccion = forms.CharField()
     comuna = forms.CharField()
-    matriculado = forms.CharField()
-    morocidad = forms.CharField()
-    is_regular = forms.CharField()
-    telefono = forms.CharField()
+    carrera = forms.CharField()
 
-class ArancelesForms(forms.Form):
-    sede = forms.CharField()
-    direccion = forms.CharField()
-    comuna = forms.CharField()
+class TomaRamos(forms.Form):
+    id_alumno = forms.IntegerField()
+    id_ramo = forms.IntegerField()
+    seccion = forms.CharField()
 
-class BibliotecaForms(forms.Form):
-    nombre = forms.CharField()
-    direccion = forms.CharField()
-    comuna = forms.CharField()
-
-class LibroForms(forms.Form):
-    nombre = forms.CharField()
-    autor = forms.CharField()
-    en_biblioteca = forms.CharField()
+class ReservaLibro(forms.Form):
+    nombre = forms.IntegerField()
+    autor = forms.IntegerField()
 
 class FinanzasForms(forms.Form):
     id_alumno = forms.IntegerField()
-    id_aranceles = forms.IntegerField()
-    tipo_cuota = forms.CharField()
+    id_tipo_cuota = forms.IntegerField()
+    tipo_cuota = forms.IntegerField()
     num_cuota = forms.IntegerField()
     pagada = forms.CharField()
-    fecha_vencimiento = forms.CharField()
+    fecha_vencimiento = forms.DateField()
