@@ -110,3 +110,29 @@ def delete_by_id(request, id):
         response = HttpResponse('Error al borrar por id -> {0}'.format(id))
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return response    
+
+
+@api_view(['GET'])
+def pagar_finanza_by_id(request, id):
+    if request.method == 'GET':
+        return pagar_finanza_by_id(request, id)
+
+def pagar_finanza_by_id(request, id):
+    print('pagar_finanza_by_id')
+    try:
+        finanzas = Finanzas.objects.get(id = id)
+        print(finanzas)
+        finanzas.pagada = True
+        finanzas.save() 
+        return JsonResponse(finanzas.json(), content_type="application/json", 
+                json_dumps_params={'ensure_ascii': False})
+    except Finanzas.DoesNotExist as err: 
+        print(err)
+        response = HttpResponse('Finanzas no encontrado. Error al buscar por id -> {0}'.format(id))
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return response
+    except Exception as err:
+        print(err)
+        response = HttpResponse('Problemas en la base de datos. Error al buscar por id -> {0}'.format(id))
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return response

@@ -87,19 +87,26 @@ def list_finanzas(request):
     except Exception as e:
         print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e ))
 
-def list_finanzas_by_id(request, id):
+def pagar_finanza_by_id(request, id):
     print('find_by_id')
     url = 'http://127.0.0.1:9000/api/v1/finanzas/{0}'.format(id)
-    try:
-        response = requests.get(url)
-        print('status_code: {0}'.format(response.status_code))
-        status = response.status_code
+    if request.method == 'POST':
+        try:
+            url_pagar_finanza = 'http://127.0.0.1:9000/api/v1/pagar_finanza_by_id/{0}'.format(id)
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url_pagar_finanza,e )) 
+    else:
+        try:
+            response = requests.get(url)
+            print('status_code: {0}'.format(response.status_code))
+            status = response.status_code
 
-        if status == 200:
-            finanzas = response.json()          
-
-    except Exception as e:
-        print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+            if status == 200:
+                finanzas = response.json()   
+            print(finanzas)
+            return render(request, 'finanzas/pagar_finanzas.html', {'finanzas': finanzas})       
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
 
 def agregar_finanzas(request):
     print('add_client')

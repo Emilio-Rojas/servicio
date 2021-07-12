@@ -40,4 +40,6 @@ urlpatterns = [
 
     path('api/v1/libros/', libros, name='libros'), 
     path('api/v1/ramos/', ramos, name='ramos'), 
+
+    path('api/v1/pagar_finanza_by_id/<int:id>/', pagar_finanza_by_id, name='pagar_finanza_by_id'),
 ]

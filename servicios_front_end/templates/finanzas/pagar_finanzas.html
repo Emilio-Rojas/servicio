@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Finanzas{% endblock %}
+
+{% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
+{% block content %}
+<section class="index-content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Modulo pago</h1>
+            </div>
+            <div class="card-body">
+                <div>
+                    {% if finanzas %}
+                        <h3>Datos Alumno</h3>
+                        <p>{{finanzas.id_alumno.rut}}</p>
+                        <p>{{finanzas.id_alumno.nombres}}</p>
+                        <p>{{finanzas.id_alumno.apellidos}}</p>
+                        <p>{{finanzas.id_alumno.email}}</p>
+                        <p>{{finanzas.id_alumno.direccion}}</p>
+                        <p>{{finanzas.id_alumno.comuna}}</p>
+                        <p>{{finanzas.id_alumno.carrera}}</p>
+                        <br>
+                        <h3>Datos Cuota</h3>
+                        <p>{{finanzas.id_tipo_cuota.nombre}}</p>
+                        <p>{{finanzas.num_cuota}}</p>
+                        <p>${{finanzas.valor}}</p>
+                        <p>{{finanzas.pagada}}</p>
+                        <p>{{finanzas.fecha_vencimiento}}</p>
+                    {% else %}
+                        <h3>Problemas obteniendo los datos de finanzas</h3>
+                    {% endif %}
+                </div>
+                <br>
+                <div>
+                    <button class="btn btn-primary">Registrar Pago</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

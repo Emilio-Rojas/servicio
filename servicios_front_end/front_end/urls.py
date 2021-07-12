@@ -18,9 +18,8 @@ urlpatterns = [
 
   path('finanzas/', include([
     path('', list_finanzas, name='list_finanzas'),
-    path('<int:id>/', list_finanzas_by_id, name='list_finanzas_by_id'),
     path('agregar/', agregar_finanzas, name='agregar_finanzas'),
-    #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
+    path('pagar/<int:id>/', pagar_finanza_by_id, name='pagar_finanza_by_id'),
     path('eliminar/<int:id>/', eliminar_finanzas, name='eliminar_finanzas'),
   ])),
 
