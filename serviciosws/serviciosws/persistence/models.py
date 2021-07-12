@@ -47,8 +47,8 @@ class Finanzas(models.Model):
 
     def json(self):
         return {
-                'id_alumno': self.id_alumno,
-                'id_tipo_cuota': self.id_tipo_cuota,
+                'id_alumno': self.id_alumno.json(),
+                'id_tipo_cuota': self.id_tipo_cuota.json(),
                 'num_cuota': self.num_cuota,
                 'valor': self.valor,
                 'pagada': self.pagada,
@@ -100,8 +100,8 @@ class ReservaLibro(models.Model):
 
     def json(self):
         return {
-                'id_alumno': self.id_alumno,
-                'id_libro': self.id_libro,
+                'id_alumno': self.id_alumno.json(),
+                'id_libro': self.id_libro.json(),
                 }
 
 
@@ -114,7 +114,7 @@ class TipoCuota(models.Model):
 
     def json(self):
         return {
-                'id_alumno': self.id_alumno,
+                'nombre': self.nombre,
                 }
 
 
@@ -129,7 +129,7 @@ class TomaRamos(models.Model):
 
     def json(self):
         return {
-                'id_alumno': self.id_alumno,
-                'id_ramo': self.id_ramo,
+                'id_alumno': self.id_alumno.json(),
+                'id_ramo': self.id_ramo.json(),
                 'seccion': self.seccion,
                 }

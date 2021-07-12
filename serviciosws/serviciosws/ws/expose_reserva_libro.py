@@ -1,6 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from serviciosws.persistence.models import ReservaLibro
+from serviciosws.persistence.models import ReservaLibro, Libro, Alumno
 import json
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
@@ -9,15 +9,15 @@ from rest_framework import status
 scheme_add_reserva_libros = { 
     "type" : "object",
     "properties": {
-        "id_alumno":{"type" : "int"},
-        "id_libro":{"type" : "int"},
+        "id_alumno":{"type" : "integer"},
+        "id_libro":{"type" : "integer"},
     },
     "required": ["id_alumno", "id_libro"],
     "propertiesOrder": ["id_alumno", "id_libro"],
 }
 
 @api_view(['GET', 'POST'])
-def reserva_libros(request):
+def reserva_libro(request):
     if request.method == 'GET':
         return find_all(request)
     if request.method == 'POST':
@@ -30,8 +30,8 @@ def add_reserva_libros(request):
     try:
         validate(instance=reserva_libros, schema=scheme_add_reserva_libros)
         new_reserva_libros = ReservaLibro(
-                            id_alumno = reserva_libros.get('id_alumno'),
-                            id_libro = reserva_libros.get('id_libro'),
+                            id_alumno = Alumno.objects.get(id=reserva_libros.get('id_alumno')),
+                            id_libro = Libro.objects.get(id=reserva_libros.get('id_libro')),
                         )
         new_reserva_libros.save() 
         return JsonResponse(new_reserva_libros.json(),  content_type="application/json", 
@@ -43,7 +43,7 @@ def add_reserva_libros(request):
         return response        
     except Exception as err:
         print(err)
-        response = HttpResponse('Error al crear el ReservaLibro en el sistema')
+        response = HttpResponse('Error al crear el Reserva Libro en el sistema')
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR    
         return response
 
@@ -60,7 +60,7 @@ def find_all(request):
         return response
 
 @api_view(['GET', 'DELETE'])
-def reserva_libros_by_id(request, id):
+def reserva_libro_by_id(request, id):
     if request.method == 'GET':
         return find_by_id(request, id)
     if request.method == 'DELETE':
@@ -100,4 +100,23 @@ def delete_by_id(request, id):
         print(err)
         response = HttpResponse('Error al borrar por id -> {0}'.format(id))
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return response    
+        return response
+
+
+
+@api_view(['GET', 'POST'])
+def libros(request):
+    if request.method == 'GET':
+        return find_all_libros(request)
+
+def find_all_libros(request):
+    print('method find_all_libros')
+    try:
+        libros = Libro.objects.all().order_by('id').values()
+        return JsonResponse(list(libros), safe=False,
+            content_type="application/json", json_dumps_params={'ensure_ascii': False})
+    except Exception as err:
+        print(err)
+        response = HttpResponse('Error al buscar los Libro en la base de datos')
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return response

@@ -1,6 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from serviciosws.persistence.models import Finanzas
+from serviciosws.persistence.models import Finanzas, Alumno, TipoCuota
 import json
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
@@ -9,10 +9,10 @@ from rest_framework import status
 scheme_add_finanzas = { 
     "type" : "object",
     "properties": {
-        "id_alumno":{"type" : "string"},
-        "id_tipo_cuota":{"type" : "string"},
-        "num_cuota":{"type" : "int"},
-        "valor":{"type" : "int"},
+        "id_alumno":{"type" : "integer"},
+        "id_tipo_cuota":{"type" : "integer"},
+        "num_cuota":{"type" : "integer"},
+        "valor":{"type" : "integer"},
         "pagada":{"type" : "boolean"},
         "fecha_vencimiento":{"type" : "string"},
     },
@@ -35,9 +35,8 @@ def add_finanzas(request):
     try:
         validate(instance=finanzas, schema=scheme_add_finanzas)
         new_finanzas = Finanzas(
-                            id_alumno = finanzas.get('id_alumno'),
-                            id_aranceles = finanzas.get('id_aranceles'),
-                            tipo_cuota = finanzas.get('tipo_cuota'),
+                            id_alumno = Alumno.objects.get(id=finanzas.get('id_alumno')),
+                            id_tipo_cuota = TipoCuota.objects.get(id=finanzas.get('id_tipo_cuota')),
                             num_cuota = finanzas.get('num_cuota'),
                             valor = finanzas.get('valor'),
                             pagada = finanzas.get('pagada'),

@@ -8,7 +8,7 @@
 <section class="index-content">
     <div class="card">
         <div class="card-header">
-            <h1>Administrar reserva_libros</h1>
+            <h1>Administrar reserva libros</h1>
         </div>
         <div class="card-body">
             <table class="table table-striped table-dark text-light text-center">
@@ -23,8 +23,8 @@
                     {% if reserva_libros %}
                         {% for reserva_libro in reserva_libros %}
                             <tr>
-                                <td>{{ reserva_libro.id_alumno }}</td>
-                                <td>{{ reserva_libro.id_libro }}</td>
+                                <td>{{ reserva_libro.id_alumno_id }}</td>
+                                <td>{{ reserva_libro.id_libro_id }}</td>
                                 <td>
                                     <!-- <a class="btn btn-primary" href="/reserva_libro/editar/{{ reserva_libro.id }}/" role="button">Editar</a> -->
                                     <a class="btn btn-danger" href="/reserva-libro/eliminar/{{ reserva_libro.id }}/" role="button">Eliminar</a>
@@ -32,12 +32,12 @@
                             </tr>
                         {% endfor %}
                     {% else %}
-                        <h1>No hay registros de reserva_libros</h1>
+                        <h1>No hay registros de reserva libros</h1>
                     {% endif %}
                 </tbody>
             </table>
             <div>
-                <a class="btn btn-success" href="/reserva_libro/agregar/" role="button">Agregar</a>
+                <a class="btn btn-success" href="/reserva-libro/agregar/" role="button">Agregar</a>
             </div>
         </div>
     </div>

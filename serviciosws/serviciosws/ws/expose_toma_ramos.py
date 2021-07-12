@@ -1,6 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
-from serviciosws.persistence.models import TomaRamos
+from serviciosws.persistence.models import TomaRamos, Alumno, Ramos
 import json
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
@@ -9,8 +9,8 @@ from rest_framework import status
 scheme_add_toma_ramos = { 
     "type" : "object",
     "properties": {
-        "id_alumno":{"type" : "int"},
-        "id_ramo":{"type" : "int"},
+        "id_alumno":{"type" : "integer"},
+        "id_ramo":{"type" : "integer"},
         "seccion":{"type" : "string"},
     },
     "required": ["id_alumno", "id_ramo", "seccion"],
@@ -31,8 +31,8 @@ def add_toma_ramos(request):
     try:
         validate(instance=toma_ramos, schema=scheme_add_toma_ramos)
         new_toma_ramos = TomaRamos(
-                            id_alumno = toma_ramos.get('id_alumno'),
-                            id_ramo = toma_ramos.get('id_ramo'),
+                            id_alumno = Alumno.objects.get(id=toma_ramos.get('id_alumno')),
+                            id_ramo = Ramos.objects.get(id=toma_ramos.get('id_ramo')),
                             seccion = toma_ramos.get('seccion'),
                         )
         new_toma_ramos.save() 
@@ -103,3 +103,21 @@ def delete_by_id(request, id):
         response = HttpResponse('Error al borrar por id -> {0}'.format(id))
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return response    
+
+
+@api_view(['GET', 'POST'])
+def ramos(request):
+    if request.method == 'GET':
+        return find_all_ramos(request)
+
+def find_all_ramos(request):
+    print('method find_all_ramos')
+    try:
+        ramos = Ramos.objects.all().order_by('id').values()
+        return JsonResponse(list(ramos), safe=False,
+            content_type="application/json", json_dumps_params={'ensure_ascii': False})
+    except Exception as err:
+        print(err)
+        response = HttpResponse('Error al buscar los ramos en la base de datos')
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return response

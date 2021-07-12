@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block title %}Toma de ramos{% endblock %}
+{% block title %}Reserva libro{% endblock %}
 
 {% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
 {% block content %}
@@ -9,14 +9,52 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h1>Toma de ramos</h1>
+                <h1>Agregar reserva libro</h1>
             </div>
             <div class="card-body">
+                <h2>Consultar Morosidad</h2>
+                <br>
+                <form method="POST" class="formulario" action="">
+                    {% csrf_token %}
+                    {{ form_morosidad.as_p }}
+                    <div>
+                        <button class="btn btn-primary" type="submit">Consultar</button>
+                    </div>
+                </form>
+                <br>
+                <h2>Ramos</h2>
+                <table class="table table-striped table-dark text-light text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">RAMO</th>
+                            <th scope="col">CREDITOS</th>
+                            <th scope="col">OBLIGATORIO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if ramos %}
+                            {% for ramo in ramos %}
+                                <tr>
+                                    <td>{{ ramo.id }}</td>
+                                    <td>{{ ramo.nombre }}</td>
+                                    <td>{{ ramo.creditos }}</td>
+                                    <td>{{ ramo.obligatorio }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <h3>No hay registros de ramos</h3>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <br>
+                <h2>Tomar Ramo</h2>
+                <br>
                 <form method="POST" class="formulario" action="">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div>
-                        <a class="btn btn-secondary" href="/">Volver</a>
+                        <a class="btn btn-secondary" href="/toma-ramos/">Volver</a>
                         <button class="btn btn-success" type="submit">Agregar</button>
                     </div>
                 </form>

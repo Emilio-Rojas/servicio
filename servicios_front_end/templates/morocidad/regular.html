@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Estado Alumno{% endblock %}
+
+{% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
+{% block content %}
+<section class="index-content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Estado Alumno</h1>
+            </div>
+            <div class="card-body">
+                {% if regular %}
+                    <p>Alumno: {{rut}}</p>
+                    <p>Id: {{id_alumno}}</p>
+                    <p>Se encuentra en estado regular al día con los pagos!</p>
+                {% else %}
+                    <p>Alumno: {{rut}}</p>
+                    <p>Id: {{id_alumno}}</p>
+                    <p>Tiene deudas pendientes, enviar a que regularice su situación!</p>
+                {% endif %}
+                {% if modulo == 'reserva_libro'%}
+                    <a class="btn btn-secondary" href="/reserva-libro/agregar/">Volver</a>
+                {% else %}
+                    <a class="btn btn-secondary" href="/toma-ramos/agregar/">Volver</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

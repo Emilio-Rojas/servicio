@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from front_end.forms import *
+import json
 import sys
 import requests
 
@@ -106,13 +107,13 @@ def agregar_finanzas(request):
     if request.method == "POST":
         try:
             print("Acaaa")
-            print(request.POST['tipo_cuota'])
+            print(request.POST['pagada'])
             finanzas_json = {
                 'id_alumno': int(request.POST['id_alumno']),
                 'id_tipo_cuota': int(request.POST['id_tipo_cuota']),
                 'num_cuota': int(request.POST['num_cuota']),
-                'valor': request.POST['valor'],
-                'pagada': True if request.POST['pagada'] == '1' else False,      
+                'valor': int(request.POST['valor']),
+                'pagada': True if request.POST['pagada'] == "1" else False,      
                 'fecha_vencimiento': request.POST['fecha_vencimiento'],                                                
             }
             print (finanzas_json)
@@ -152,7 +153,7 @@ def list_reserva_libros(request):
         response = requests.get(url, headers=headers)
         print('status_code: {0}'.format(response.status_code))
         reserva_libros = response.json()
-        print (finanzas)
+        print (reserva_libros)
         return render(request, 'reserva_libros/listar_reserva_libro.html', {'reserva_libros': reserva_libros})
     except Exception as e:
         print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e ))
@@ -166,43 +167,69 @@ def list_reserva_libros_by_id(request, id):
         status = response.status_code
 
         if status == 200:
-            finanzas = response.json()          
+            reserva_libros = response.json()          
 
     except Exception as e:
         print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
 
 def agregar_reserva_libro(request):
-    print('add_client')
+    print('agregar_reserva_libro')
     url = 'http://127.0.0.1:9000/api/v1/reserva-libro/'
+    url_libros = 'http://127.0.0.1:9000/api/v1/libros/'
     if request.method == "POST":
         try:
-            print("Acaaa")
-            reserva_libro_json = {
-                'id_alumno': int(request.POST['id_alumno']),
-                'id_libro': int(request.POST['id_libro']),                                               
-            }
-            print (reserva_libro_json)
-            response = requests.post(url, json=reserva_libro_json)
-            print('status_code: {0}'.format(response.status_code))
-            reserva_libros = response.json()
-            return redirect('/reserva-libro/')
+            try: 
+                if (request.POST['rut']):
+                    url_morosidad = 'http://127.0.0.1:9000/api/v1/morosidad/{0}'.format(request.POST['rut'])
+                    response = requests.get(url_morosidad)
+                    print('status_code: {0}'.format(response.status_code))
+                    modulo = 'reserva_libro'
+                    if response.status_code == 200:
+                        value = response.json()
+                        value_dumps = json.dumps(value)
+                        alumno = json.loads(value_dumps)
+                        regular = alumno["regular"]
+                        rut = alumno["rut"]
+                        id_alumno = alumno["id_alumno"]
+                        return render(request, 'morosidad/regular.html', {'modulo': modulo, 'regular': regular, "rut": rut, 'id_alumno': id_alumno})
+            except:
+                if (request.POST['id_alumno']):
+                    print("Acaaa")
+                    reserva_libro_json = {
+                        'id_alumno': int(request.POST['id_alumno']),
+                        'id_libro': int(request.POST['id_libro']),                                               
+                    }
+                    print (reserva_libro_json)
+                    response = requests.post(url, json=reserva_libro_json)
+                    print('status_code: {0}'.format(response.status_code))
+                    reserva_libros = response.json()
+                    return redirect('/reserva-libro/')
         except Exception as e:
             print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
     else:
-        form = FinanzasForms()
-        return render(request, 'reserva_libros/agregar_reserva_libro.html', {'form': form})
+        form = ReservaLibroForms()
+        form_morosidad = ConsultarMorosidad()
+        try:
+            headers ={'Authorization' : 'Token'}
+            response = requests.get(url_libros, headers=headers)
+            print('status_code: {0}'.format(response.status_code))
+            libros = response.json()
+            print (libros)
+            return render(request, 'reserva_libros/agregar_reserva_libro.html', {'form': form, 'form_morosidad': form_morosidad, 'libros': libros})
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url_libros,e )) 
 
 
 def eliminar_reserva_libro(request, id):
     print('delete_by_id')
-    url = 'http://127.0.0.1:9000/api/v1/toma-ramos/{0}'.format(id)
+    url = 'http://127.0.0.1:9000/api/v1/reserva-libro/{0}'.format(id)
     print(request.method)
     if request.method == 'POST':
         try:
             response = requests.delete(url)
             print('id: {0}'.format(response.status_code))
             print('messsage: {0}'.format(response.text))
-            return redirect('/toma-ramos/')     
+            return redirect('/reserva-libro/')     
         except Exception as e:
             print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
     else:
@@ -219,8 +246,8 @@ def list_toma_ramos(request):
         response = requests.get(url, headers=headers)
         print('status_code: {0}'.format(response.status_code))
         toma_ramos = response.json()
-        print (finanzas)
-        return render(request, 'tomar_ramos/listar_tomar_ramos.html', {'toma_ramos': toma_ramos})
+        print (toma_ramos)
+        return render(request, 'toma_ramos/listar_toma_ramos.html', {'toma_ramos': toma_ramos})
     except Exception as e:
         print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e ))
 
@@ -233,33 +260,58 @@ def list_toma_ramos_by_id(request, id):
         status = response.status_code
 
         if status == 200:
-            finanzas = response.json()          
+            toma_ramos = response.json()          
 
     except Exception as e:
         print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
 
 def agregar_tomar_ramo(request):
-    print('add_client')
+    print('toma_ramos')
     url = 'http://127.0.0.1:9000/api/v1/toma-ramos/'
+    url_ramos = 'http://127.0.0.1:9000/api/v1/ramos/'
     if request.method == "POST":
         try:
-            print("Acaaa")
-            print(request.POST['tipo_cuota'])
-            tomar_ramo_json = {
-                'id_alumno': int(request.POST['id_alumno']),
-                'id_ramo': int(request.POST['id_ramo']),
-                'seccion': request.POST['seccion'],                                             
-            }
-            print (tomar_ramo)
-            response = requests.post(url, json=tomar_ramo)
-            print('status_code: {0}'.format(response.status_code))
-            tomar_ramo = response.json()
-            return redirect('/toma-ramos/')
+            try: 
+                if (request.POST['rut']):
+                    url_morosidad = 'http://127.0.0.1:9000/api/v1/morosidad/{0}'.format(request.POST['rut'])
+                    response = requests.get(url_morosidad)
+                    print('status_code: {0}'.format(response.status_code))
+                    modulo = 'toma_ramos'
+                    if response.status_code == 200:
+                        value = response.json()
+                        value_dumps = json.dumps(value)
+                        alumno = json.loads(value_dumps)
+                        regular = alumno["regular"]
+                        rut = alumno["rut"]
+                        id_alumno = alumno["id_alumno"]
+                        return render(request, 'morosidad/regular.html', {'modulo': modulo, 'regular': regular, "rut": rut, 'id_alumno': id_alumno})
+            except:
+                if (request.POST['id_alumno']):
+                    print("Acaaa")
+                    tomar_ramo_json = {
+                        'id_alumno': int(request.POST['id_alumno']),
+                        'id_ramo': int(request.POST['id_ramo']),
+                        'seccion': request.POST['seccion'],                                             
+                    }
+                    print (tomar_ramo_json)
+                    response = requests.post(url, json=tomar_ramo_json)
+                    print('status_code: {0}'.format(response.status_code))
+                    tomar_ramos = response.json()
+                    return redirect('/toma-ramos/')
         except Exception as e:
             print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
     else:
-        form = FinanzasForms()
-        return render(request, 'tomar_ramos/agregar_tomar_ramo.html', {'form': form})
+        form = TomaRamosForms()
+        form_morosidad = ConsultarMorosidad()
+        try:
+            headers ={'Authorization' : 'Token'}
+            response = requests.get(url_ramos, headers=headers)
+            print('status_code: {0}'.format(response.status_code))
+            ramos = response.json()
+            print (ramos)
+            return render(request, 'toma_ramos/agregar_toma_ramo.html', {'form': form, 'form_morosidad': form_morosidad, 'ramos': ramos})
+        except Exception as e:
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url_ramos,e )) 
 
 
 def eliminar_toma_ramo(request, id):
@@ -275,4 +327,4 @@ def eliminar_toma_ramo(request, id):
         except Exception as e:
             print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
     else:
-        return render(request, 'tomar_ramos/eliminar_tomar_ramo.html')
+        return render(request, 'toma_ramos/eliminar_toma_ramo.html')

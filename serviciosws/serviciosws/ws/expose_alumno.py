@@ -39,15 +39,11 @@ def add_alumno(request):
         new_alumno = Alumno(
             rut = alumno.get('rut'),
             nombres = alumno.get('nombres'),
-            apellido_paterno = alumno.get('apellido_paterno'),
-            apellido_materno = alumno.get('apellido_materno'),
+            apellidos = alumno.get('apellidos'),
             email = alumno.get('email'),
             direccion = alumno.get('direccion'),
             comuna = alumno.get('comuna'),
-            matriculado = alumno.get('matriculado'),
-            morocidad = alumno.get('morocidad'),
-            is_regular = alumno.get('is_regular'),
-            telefono = alumno.get('telefono'),
+            carrera = alumno.get('carrera'),
         )
         new_alumno.save()
         return JsonResponse(new_alumno.json(),  content_type="application/json", 
@@ -116,4 +112,4 @@ def delete_by_id(request, id):
         print(err)
         response = HttpResponse('Error al borrar por id -> {0}'.format(id))
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return response    
+        return response

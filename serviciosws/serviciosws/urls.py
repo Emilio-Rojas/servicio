@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from serviciosws.ws.expose_alumno import *
-from serviciosws.ws.expose_arancel import *
 from serviciosws.ws.expose_finanzas import *
+from serviciosws.ws.expose_toma_ramos import *
+from serviciosws.ws.expose_reserva_libro import *
+from serviciosws.ws.expose_morosidad import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +34,10 @@ urlpatterns = [
 
     path('api/v1/reserva-libro/', reserva_libro, name='reserva_libro'),
     path('api/v1/reserva-libro/<int:id>/', reserva_libro_by_id, name='reserva_libro_by_id'), 
+
+    
+    path('api/v1/morosidad/<str:rut>/', morosidad_by_rut, name='morosidad_by_rut'), 
+
+    path('api/v1/libros/', libros, name='libros'), 
+    path('api/v1/ramos/', ramos, name='ramos'), 
 ]

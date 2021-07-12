@@ -10,19 +10,22 @@ class AlumnoForms(forms.Form):
     comuna = forms.CharField()
     carrera = forms.CharField()
 
-class TomaRamos(forms.Form):
+class TomaRamosForms(forms.Form):
     id_alumno = forms.IntegerField()
     id_ramo = forms.IntegerField()
     seccion = forms.CharField()
 
-class ReservaLibro(forms.Form):
-    nombre = forms.IntegerField()
-    autor = forms.IntegerField()
+class ReservaLibroForms(forms.Form):
+    id_alumno = forms.IntegerField()
+    id_libro = forms.IntegerField()
 
 class FinanzasForms(forms.Form):
     id_alumno = forms.IntegerField()
     id_tipo_cuota = forms.IntegerField()
-    tipo_cuota = forms.IntegerField()
     num_cuota = forms.IntegerField()
+    valor = forms.IntegerField()
     pagada = forms.CharField()
-    fecha_vencimiento = forms.DateField()
+    fecha_vencimiento = forms.DateField(input_formats=['%Y-%m-%d'])
+
+class ConsultarMorosidad(forms.Form):
+    rut = forms.CharField(label="Ingresar Rut")

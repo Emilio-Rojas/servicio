@@ -12,11 +12,49 @@
                 <h1>Agregar reserva libro</h1>
             </div>
             <div class="card-body">
+                <h2>Consultar Morosidad</h2>
+                <br>
+                <form method="POST" class="formulario" action="">
+                    {% csrf_token %}
+                    {{ form_morosidad.as_p }}
+                    <div>
+                        <button class="btn btn-primary" type="submit">Consultar</button>
+                    </div>
+                </form>
+                <br>
+                <h2>Libros</h2>
+                <table class="table table-striped table-dark text-light text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">LIBRO</th>
+                            <th scope="col">EDITORIAL</th>
+                            <th scope="col">AUTOR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if libros %}
+                            {% for libro in libros %}
+                                <tr>
+                                    <td>{{ libro.id }}</td>
+                                    <td>{{ libro.nombre }}</td>
+                                    <td>{{ libro.editorial }}</td>
+                                    <td>{{ libro.autor }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <h3>No hay registros de libros</h3>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <br>
+                <h2>Agregar Reserva</h2>
+                <br>
                 <form method="POST" class="formulario" action="">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div>
-                        <a class="btn btn-secondary" href="/">Volver</a>
+                        <a class="btn btn-secondary" href="/reserva-libro/">Volver</a>
                         <button class="btn btn-success" type="submit">Agregar</button>
                     </div>
                 </form>
