@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Send Email{% endblock %}
+
+{% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
+{% block content %}
+<section class="index-content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                {% if estado == 'True' %}
+                    <h1>Wena chuchetumare se envio</h1>
+                {% else %}
+                    <h1>Weon penca</h1>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

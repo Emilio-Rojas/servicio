@@ -38,6 +38,10 @@ urlpatterns = [
     #path('editar/<int:id>/', editar_alumno, name='editar_alumno'),
     path('eliminar/<int:id>/', eliminar_reserva_libro, name='eliminar_reserva_libro'),
   ])),
+
+  
+  path('send-email/', send_email, name='send_email'),
+  path('estado-email/<str:estado>/', estado_mail, name='estado_mail'),
   
 
 

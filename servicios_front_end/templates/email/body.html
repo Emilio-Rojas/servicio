@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Send Email{% endblock %}
+
+{% block navbar %} {% include 'base/navbar.html' %} {% endblock %}
+{% block content %}
+<section class="index-content">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Enviar email</h1>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="formulario" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div>
+                        <a class="btn btn-secondary" href="/">Volver</a>
+                        <button class="btn btn-primary" type="submit">Enviar Correo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}

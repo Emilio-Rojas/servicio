@@ -29,3 +29,8 @@ class FinanzasForms(forms.Form):
 
 class ConsultarMorosidad(forms.Form):
     rut = forms.CharField(label="Ingresar Rut")
+
+class SendEmail(forms.Form):
+    to = forms.CharField()
+    subject = forms.CharField()
+    contexto = forms.CharField()

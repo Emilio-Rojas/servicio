@@ -12,31 +12,38 @@
                 <h1>Modulo pago</h1>
             </div>
             <div class="card-body">
-                <div>
+                <div class="row">
                     {% if finanzas %}
-                        <h3>Datos Alumno</h3>
-                        <p>{{finanzas.id_alumno.rut}}</p>
-                        <p>{{finanzas.id_alumno.nombres}}</p>
-                        <p>{{finanzas.id_alumno.apellidos}}</p>
-                        <p>{{finanzas.id_alumno.email}}</p>
-                        <p>{{finanzas.id_alumno.direccion}}</p>
-                        <p>{{finanzas.id_alumno.comuna}}</p>
-                        <p>{{finanzas.id_alumno.carrera}}</p>
-                        <br>
-                        <h3>Datos Cuota</h3>
-                        <p>{{finanzas.id_tipo_cuota.nombre}}</p>
-                        <p>{{finanzas.num_cuota}}</p>
-                        <p>${{finanzas.valor}}</p>
-                        <p>{{finanzas.pagada}}</p>
-                        <p>{{finanzas.fecha_vencimiento}}</p>
+                        <div class="col-5 shadow p-3 mb-5 bg-white rounded ml-5">
+                            <h3>Datos Alumno</h3>
+                            <hr>
+                            <p><b>Rut:</b> {{finanzas.id_alumno.rut}}</p>
+                            <p><b>Nombres:</b> {{finanzas.id_alumno.nombres}}</p>
+                            <p><b>Apellidos:</b> {{finanzas.id_alumno.apellidos}}</p>
+                            <p><b>Email:</b> {{finanzas.id_alumno.email}}</p>
+                            <p><b>Dirección:</b> {{finanzas.id_alumno.direccion}}</p>
+                            <p><b>Comuna:</b> {{finanzas.id_alumno.comuna}}</p>
+                            <p><b>Carrera:</b> {{finanzas.id_alumno.carrera}}</p>
+                            <br>
+                        </div>
+                        <div class="col-5 shadow p-3 mb-5 bg-white rounded ml-5">
+                            <h3>Datos Cuota</h3>
+                            <hr>
+                            <p><b>Nombre:</b> {{finanzas.id_tipo_cuota.nombre}}</p>
+                            <p><b>Número Cuota:</b> {{finanzas.num_cuota}}</p>
+                            <p><b>Valor:</b> ${{finanzas.valor}}</p>
+                            <p><b>Pagada:</b> {{finanzas.pagada}}</p>
+                            <p><b>Fecha de vencimiento:</b> {{finanzas.fecha_vencimiento}}</p>
+                        </div>
                     {% else %}
                         <h3>Problemas obteniendo los datos de finanzas</h3>
                     {% endif %}
                 </div>
-                <br>
-                <div>
+                <form method="POST" class="formulario" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
                     <button class="btn btn-primary">Registrar Pago</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>

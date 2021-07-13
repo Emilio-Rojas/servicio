@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from front_end.forms import *
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.http import Http404
 import json
 import sys
 import requests
@@ -92,7 +95,12 @@ def pagar_finanza_by_id(request, id):
     url = 'http://127.0.0.1:9000/api/v1/finanzas/{0}'.format(id)
     if request.method == 'POST':
         try:
+            headers ={'Authorization' : 'Token'}
             url_pagar_finanza = 'http://127.0.0.1:9000/api/v1/pagar_finanza_by_id/{0}'.format(id)
+            response = requests.get(url_pagar_finanza, headers=headers)
+            print('status_code: {0}'.format(response.status_code))
+            finanzas = response.json()
+            return redirect('/send-email/')   
         except Exception as e:
             print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url_pagar_finanza,e )) 
     else:
@@ -106,7 +114,39 @@ def pagar_finanza_by_id(request, id):
             print(finanzas)
             return render(request, 'finanzas/pagar_finanzas.html', {'finanzas': finanzas})       
         except Exception as e:
-            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e )) 
+            print('ERROR AL CONSUMIR EL SERVICIO {0}\n{1}'.format(url,e ))
+
+def send_email(request):
+    if request.method == "POST":
+        to = str(request.POST['to'])
+        subject = request.POST['subject']
+        contexto = { "mensaje": request.POST['contexto']}
+        from_email = "kala.mail.testing@gmail.com"
+        estado_email = enviar_correo(request, contexto, to, subject, from_email)
+        return redirect('/estado-email/{0}/'.format(estado_email))
+    else:    
+        form = SendEmail()
+        return render(request, 'email/body.html', {'form': form})
+
+def estado_mail(request, estado):
+    print(estado)
+    return render(request, 'email/estado.html', {'estado': estado})
+
+def enviar_correo(request,contexto,to,subject,from_email):
+    try:
+        template = get_template('email/plantilla.html')
+        text_content = 'No responder este correo.'
+        html_content = template.render(contexto)
+        correos_a_usar = [to]
+
+        msg = EmailMultiAlternatives(subject, text_content, from_email, correos_a_usar)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        return True
+    except Exception as identifier:
+        print("Error enviando un email: {0}".format(identifier))
+        raise Http404(identifier)
+        return False
 
 def agregar_finanzas(request):
     print('add_client')
