@@ -235,10 +235,11 @@ def agregar_reserva_libro(request):
                         value = response.json()
                         value_dumps = json.dumps(value)
                         alumno = json.loads(value_dumps)
+                        print(alumno["id_alumno"])
                         regular = alumno["regular"]
                         rut = alumno["rut"]
                         id_alumno = alumno["id_alumno"]
-                        return render(request, 'morosidad/regular.html', {'modulo': modulo, 'regular': regular, "rut": rut, 'id_alumno': id_alumno})
+                    return render(request, 'morosidad/regular.html', {'modulo': modulo, 'regular': regular, "rut": rut, 'id_alumno': id_alumno})
             except:
                 if (request.POST['id_alumno']):
                     print("Acaaa")
